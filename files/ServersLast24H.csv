@@ -1,0 +1,5 @@
+﻿"Nome","Criado em","Sistema Operacional","OU"
+"GOWMON01","19/06/2023 15:11:47","Windows Server 2022 Standard","CN=GOWMON01,OU=ProduçãoBaixa,OU=Windows 2022,OU=Servidores,DC=pratika,DC=br"
+"GO04WCCS01","26/06/2023 13:57:03","Windows Server 2019 Standard","CN=GO04WCCS01,OU=Produção,OU=Windows 2019,OU=Servidores,DC=pratika,DC=br"
+"DC01WCYM01","30/06/2023 11:39:51","Windows Server 2019 Standard","CN=DC01WCYM01,OU=DEV-QA,OU=Windows 2019,OU=Servidores,DC=pratika,DC=br"
+"DC01WTEMP2016","18/07/2023 08:40:20","Windows Server 2016 Standard","CN=DC01WTEMP2016,CN=Computers,DC=pratika,DC=br"

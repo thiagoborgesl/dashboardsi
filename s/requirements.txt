@@ -1,0 +1,10 @@
+Flask==2.0.3
+zipp==3.6.0
+importlib-resources==5.4.0
+
+na pasta do app executar:
+deactivate
+source venv/bin/activate
+flask run
+
+fazer um card com fundo branco, com borda arredondada e uma shadow/borda da cor do nivel da senha()

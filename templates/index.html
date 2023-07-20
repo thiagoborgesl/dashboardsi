@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard SI</title>
+    <link rel="shortcut icon" href="/static/images/alerta.ico">
+    <link href="/static/style/style.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+</head>
+
+<body>
+    <header>
+        <img src="/static/images/cyber.png" alt="Defesa">
+        <img src="/static/images/digital.png" alt="Defesa">
+    </header>
+
+    <div class="title">
+        <h1 class="title-icon">SEGURANÇA DA INFORMAÇÃO</h1>
+    </div>
+
+    <div class="carousel">
+        <div class="carousel-slide active" id="table1">
+            <h2>SERVIDORES CRIADOS NAS ÚLTIMAS 72 HORAS</h2>
+            <div class="table-container">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <!-- Os títulos das colunas vão aqui -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Os dados da tabela serão inseridos aqui -->
+                </tbody>
+            </table>
+        </div>
+        </div>
+
+    </div>
+    
+    <footer>© Desenvolvido pelo <a href="mailto:seguranca.informacao@hypera.com.br">Time de Segurança da Informação</a> 🔑</footer>
+
+    <script>
+        $(document).ready(function() {
+            $.getJSON('/read-servers', function(data) {
+                populateTable(data, '#dataTable');
+            });
+
+            function populateTable(data, tableSelector) {
+        // Definindo a ordem das colunas
+        var headers = ["Nome","Criado em","Sistema Operacional","OU"];
+
+        // Preparando os cabeçalhos das colunas
+        headers.forEach(header => {
+            $(tableSelector + ' thead tr').append('<th>' + header + '</th>');
+        });
+
+        // Preparando as linhas de dados
+        data.forEach(rowData => {
+            var row = $('<tr />');
+            headers.forEach(header => {
+                row.append('<td>' + rowData[header] + '</td>');
+            });
+            $(tableSelector + ' tbody').append(row);
+        });
+    }
+        
+        });
+    </script>
+
+<script>
+  $(document).ready(function() {
+    $.getJSON('/read-users', function(data) {
+        var maxUsersPerTable = 11;  // Número máximo de usuários por tabela
+        var currentTableIndex = 1;  // Index da tabela atual
+        var currentTableCount = 0;  // Contador de usuários na tabela atual
+
+        // Loop através dos dados do usuário
+        for (var i = 0; i < data.length; i++) {
+            // Verifica se precisamos criar uma nova tabela
+            if (currentTableCount == maxUsersPerTable) {
+                currentTableIndex++;
+                currentTableCount = 0;
+                // Cria um novo div de tabela e anexa ao carousel
+                var newTableDiv = `
+                    <div class="carousel-slide" id="table${currentTableIndex}">
+                        <h2>USUÁRIOS CRIADOS NO DOMÍNIO NAS ÚLTIMAS 72 HORAS</h2>
+                        <div class="table-container">
+                            <table id="dataTable${currentTableIndex}">
+                                <thead>
+                                    <tr>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+                $(".carousel").append(newTableDiv);
+            }
+
+            // Povoar a tabela atual
+            populateTable([data[i]], "#dataTable" + currentTableIndex);
+            currentTableCount++;
+        }
+    });
+
+    function populateTable(data, tableSelector) {
+        // Definindo a ordem das colunas
+        var headers = ["Nome", "Login", "Matricula", "Criado", "Cargo", "Departamento", "Gestor"];
+
+        // Preparando os cabeçalhos das colunas
+        headers.forEach(header => {
+            // Adiciona o cabeçalho apenas se não existir
+            if ($(tableSelector + ' thead tr th').length < headers.length) {
+                $(tableSelector + ' thead tr').append('<th>' + header + '</th>');
+            }
+        });
+
+        // Preparando as linhas de dados
+        data.forEach(rowData => {
+            var row = $('<tr />');
+            headers.forEach(header => {
+                row.append('<td>' + rowData[header] + '</td>');
+            });
+            $(tableSelector + ' tbody').append(row);
+        });
+    }
+});
+</script>
+
+<script>
+ $(document).ready(function() {
+    var currentSlide = 0;
+
+    function getNumSlides() {
+        return $('.carousel-slide').length;
+    }
+
+    function showSlide(slideNum) {
+        $('.carousel-slide').removeClass('active');
+        $('.carousel-slide').eq(slideNum).addClass('active');
+    }
+
+    function nextSlide() {
+        var numSlides = getNumSlides();
+        currentSlide = (currentSlide + 1) % numSlides;
+        showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+        var numSlides = getNumSlides();
+        currentSlide = (currentSlide - 1 + numSlides) % numSlides;
+        showSlide(currentSlide);
+    }
+
+    // Se você tiver botões de navegação, pode usá-los assim:
+    // $('#nextButton').click(nextSlide);
+    // $('#prevButton').click(prevSlide);
+
+    // Alternar slides a cada 5 segundos
+    setInterval(nextSlide, 5000);
+});
+
+</script>
+
+</body>
+
+</html>
